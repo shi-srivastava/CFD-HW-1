@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/p5.js"></script>
+    <script src="/p5.sound.min.js"></script>
+    <title>Question 1-A</title>
+    <link rel="stylesheet" href="css/que.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="text">
+            <div class="text-box">
+                <h1>
+                    Input the values below:
+                </h1>
+                    <h3>Number of Cells:
+                        <input type="number" id="Cell-x" name="Cell-x" min="1" max="15" value="5">
+                        x
+                        <input type="number" id="Cell-y" name="Cell-y" min="1" max="15" value="5">
+                    </h3>
+                    <h3>
+                        <label for="quantity">Unit Cell Length (1-5):</label>
+                        <input type="integer" id="Unit-len-x" name="Unit-len-x" value="1">
+                    </br>
+                        <label for="quantity">Unit Cell Breadth (1-5):</label>
+                        <input type="integer" id="Unit-len-y" name="Unit-len-y" value="1">
+                    </br>
+                        <label for="quantity">Successive Ratio:</label>
+                        <input type="integer" id="Ratio" name="Ratio" value="1.1">
+                    </br>
+                        <label for="quantity">Scale (Change this to zoom in and out):</label>
+                        <input type="number" id="Scale" name="Scale" value="50">
+                    </h3>
+                    Press submit to see the result
+                    <button class="Submit" onclick="setup()">Submit</button>
+                </br>
+            </br>
+            <h3 id="outt" style="color: crimson;"></h3>
+            </div>
+        </div>
+        <div class="display">
+            <main></main>
+        </div>
+    </div>
+    <script>
+        function setup() {
+            createCanvas(650,650);
+        }
+        function draw() {
+            //initial position
+            var initial_x=30;
+            var initial_y=30;
+            //Smallest length
+            var col_len=document.getElementById("Unit-len-x").value;
+            var row_len=document.getElementById("Unit-len-y").value;
+
+            //Number of rows and column (size)
+            var col_no= document.getElementById("Cell-x").value;
+            var row_no= document.getElementById("Cell-y").value;
+
+            //Successive Ratio
+            var ratio= document.getElementById("Ratio").value;
+
+            //Common Multiplier
+            var mul=document.getElementById("Scale").value;
+            //Total Size
+            var col_tot_len;
+            var row_tot_len;
+
+            var val_col;
+            var val_row;
+            if(col_no%2!=0)
+                val_col=(col_no-1)/2;
+            else
+                val_col=col_no/2;
+            if(row_no%2!=0)
+                val_row=(row_no-1)/2;
+            else
+                val_row=row_no/2;
+            var x=initial_x,y=initial_y;            //initial
+            var len_x,len_y;
+            for (var i=0;i<col_no;i++)
+            {  
+                len_x=(col_len*mul)*pow(ratio,abs(val_col-i));
+                for (var j=0;j<row_no;j++)
+                {
+                    len_y=(row_len*mul)*pow(ratio,abs(val_row-j));
+                    stroke(231, 76, 60);
+                    fill(66, 245, 144);
+                    rect(x,y,len_x,len_y);
+                    y+=len_y;
+                }
+                col_tot_len=y;
+                x+=len_x;y=initial_y;
+            }
+            row_tot_len=x;
+            document.getElementById("outt").innerHTML = "Total Dimensions: " + col_tot_len + " x " + row_tot_len;
+        }
+    </script>
+</body>
+</html>
