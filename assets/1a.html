@@ -5,8 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question 1-A</title>
+    <link rel="stylesheet" href="css/que.css">
 </head>
 <body>
-    
+    <div class="wrapper">
+        <div class="text">
+            <h1>
+                Input the values below:
+            </h1>
+            <form>
+                <h3>Number of Cells:
+                    <select id="Cell-x">
+                    <option>3</option>
+                    <option>5</option>
+                    <option>7</option>
+                    <option>9</option>
+                    <option>11</option>
+                    </select>
+                    x
+                    <select id="Cell-y">
+                    <option>3</option>
+                    <option>5</option>
+                    <option>7</option>
+                    <option>9</option>
+                    <option>11</option>
+                    </select>
+                </h3>
+            </form>
+        </div>
+
+        <div class="display">
+            <canvas id="myCanvas" max-width="50vw" max-height="100vh" style="border:1px solid #ffffff;">
+            </canvas>
+        </div>
+    </div>
 </body>
 </html>

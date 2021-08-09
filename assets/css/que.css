@@ -1,0 +1,12 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.342);
+}
+.text{
+            background: linear-gradient(135deg, #bed8ff, #21a9af);
+            background-color: #172a74;
+            width: 50vw;
+            height: 100vh;
+            padding: 10px 10px;
+}
