@@ -97,7 +97,7 @@
                 x+=len_x;y=initial_y;
             }
             row_tot_len=x;
-            document.getElementById("outt").innerHTML = "Total Dimensions: " + (col_tot_len-initial_x)/mul + " x " + (row_tot_len-initial_y)/mul;
+            document.getElementById("outt").innerHTML = "Total Dimensions: " + ((col_tot_len-initial_x)/mul).toFixed(4) + " x " + ((row_tot_len-initial_y)/mul).toFixed(4);
         }
     </script>
 </body>
