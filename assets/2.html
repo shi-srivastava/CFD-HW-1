@@ -1,70 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script> 
-    <script src="skulpt-dist-master/skulpt-stdlib.js" type="text/javascript"></script>
-    <script src="skulpt-dist-master/skulpt.min.js" type="text/javascript"></script>
-    <title>Question 2</title>
-    <style>
-        body{
-            background: linear-gradient(135deg, #bed8ff, #21a9af);
-        }
-    </style>
+    <script src="p5.js"></script>
+    <script src="p5.sound.min.js"></script>
+    <script src="/node_modules/plotly.js-dist-min/plotly.min.js"></script>
+    <title>Question 1-A</title>
+    <link rel="stylesheet" href="css/que.css">
 </head>
+
 <body>
     <div class="wrapper">
-        <script type="text/javascript"> 
-            // output functions are configurable.  This one just appends some text
-            // to a pre element.
-            function outf(text) { 
-                var mypre = document.getElementById("output"); 
-                mypre.innerHTML = mypre.innerHTML + text; 
-            } 
-            function builtinRead(x) {
-                if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
-                        throw "File not found: '" + x + "'";
-                return Sk.builtinFiles["files"][x];
-            }
-
-            // Here's everything you need to run a python program in skulpt
-            // grab the code from your textarea
-            // get a reference to your pre element for output
-            // configure the output function
-            // call Sk.importMainWithBody()
-            function runit() { 
-            var prog = document.getElementById("yourcode").value; 
-            var mypre = document.getElementById("output"); 
-            mypre.innerHTML = ''; 
-            Sk.pre = "output";
-            Sk.configure({output:outf, read:builtinRead}); 
-            (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
-            var myPromise = Sk.misceval.asyncToPromise(function() {
-                return Sk.importMainWithBody("<stdin>", false, prog, true);
-            });
-            myPromise.then(function(mod) {
-                console.log('success');
-            },
-                function(err) {
-                console.log(err.toString());
-            });
-            } 
-        </script> 
-    <h3>Try This</h3> 
-        <form> 
-        <textarea id="yourcode" cols="40" rows="10">import turtle
-
-        t = turtle.Turtle()
-        t.forward(100)
-
-        print "Hello World" 
-        </textarea><br /> 
-        <button type="button" onclick="runit()">Run</button> 
-        </form> 
+        <div class="text">
+            <div class="text-box">
+                <h1>
+                    Input the values below:
+                </h1>
+                <h3>Number of Cells:
+                    <input type="number" id="Cell-x" name="Cell-x" min="1" max="15" value="5">
+                    x
+                    <input type="number" id="Cell-y" name="Cell-y" min="1" max="15" value="5">
+                    <label for="quantity">Unit Cell Length (1-5):</label>
+                    <input type="integer" id="Unit-len-x" name="Unit-len-x" value="1">
+                    </br>
+                    <label for="quantity">Unit Cell Breadth (1-5):</label>
+                    <input type="integer" id="Unit-len-y" name="Unit-len-y" value="1">
+                    </br>
+                    <label for="quantity">Successive Ratio (x):</label>
+                    <input type="integer" id="Ratio-x" name="Ratio-x" value="1.1">
+                    </br>
+                    <label for="quantity">Successive Ratio (y):</label>
+                    <input type="integer" id="Ratio-y" name="Ratio-y" value="1.1">
+                    </br>
+                    <label for="quantity">Scale (Change this to zoom in and out):</label>
+                    <input type="number" id="Scale" name="Scale" value="50">
+                </h3>
+                <h2 style="line-height: 50px;">
+                    For 2D-Heat Equation Plot:
+                </h2>
+                <h3>
+                    
+                </h3>
+                Press submit to see the result
+                <button class="Submit" onclick="setup()">Submit</button>
+                </br>
+                </br>
+                <h3 id="outt" style="color: crimson;"></h3>
+            </div>
+        </div>
+        <div class="display">
+            <main></main>
+            <div id="chart">
+            </div>
+        </div>
     </div>
-    <pre id="output" ></pre> 
-    <div id="mycanvas"></div> 
+    <script>
+        function setup() {
+            createCanvas(650, 650);
+        }
+        function draw() {
+            //initial position
+            var initial_x = 10;
+            var initial_y = 10;
+            //Smallest length
+            var col_len = document.getElementById("Unit-len-x").value;
+            var row_len = document.getElementById("Unit-len-y").value;
+
+            //Number of rows and column (size)
+            var col_no = document.getElementById("Cell-x").value;
+            var row_no = document.getElementById("Cell-y").value;
+
+            //Successive Ratio
+            var ratio_x = document.getElementById("Ratio-x").value;
+            var ratio_y = document.getElementById("Ratio-y").value;
+
+            //Common Multiplier
+            var mul = document.getElementById("Scale").value;
+            //Total Size
+            var col_tot_len;
+            var row_tot_len;
+
+            var val_col;
+            var val_row;
+            if (col_no % 2 != 0)
+                val_col = (col_no - 1) / 2;
+            else
+                val_col = col_no / 2;
+            if (row_no % 2 != 0)
+                val_row = (row_no - 1) / 2;
+            else
+                val_row = row_no / 2;
+            var x = initial_x,
+                y = initial_y; //initial
+            var len_x, len_y;
+            for (var i = 0; i < col_no; i++) {
+                len_x = (col_len * mul) * pow(ratio_x, abs(val_col - i));
+                for (var j = 0; j < row_no; j++) {
+                    len_y = (row_len * mul) * pow(ratio_y, abs(val_row - j));
+                    stroke(231, 76, 60);
+                    fill(66, 245, 144);
+                    rect(x, y, len_x, len_y);
+                    y += len_y;
+                }
+                col_tot_len = y;
+                x += len_x;
+                y = initial_y;
+            }
+            row_tot_len = x;
+            document.getElementById("outt").innerHTML = "Total Dimensions: " + ((col_tot_len - initial_x) / mul)
+                .toFixed(4) + " x " + ((row_tot_len - initial_y) / mul).toFixed(4);
+            getData();    
+        }
+        
+    function getData()
+    {
+        var arr = [];
+        for (let i = 0; i < 10; i++) arr.push(Array(10).fill().map(()=> Math.random()))
+        return arr;
+    }
+    var data = getData();
+    console.log(data);
+    Plotly.newPlot('chart', [{z: data, type: 'surface'}]);
+    </script>
 </body>
+
 </html>

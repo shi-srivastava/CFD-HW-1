@@ -8,6 +8,15 @@ html{
     margin: 0;
     padding: 0;
 }
+main{
+    max-height: 50vh;
+    height: fit-content;
+}
+.chart{
+    max-height: 50vh;
+    bottom: 0;
+    
+}
 .wrapper{
     display: flex;
 }
@@ -17,8 +26,7 @@ h1 h3{
 .text{
     background: linear-gradient(135deg, #bed8ff, #21a9af);
     background-color: #172a74;
-    width: 50vw;
-    height: 100vh;
+    width: 45vw;
     padding: 0;
 }
 .text-box{
@@ -27,9 +35,8 @@ h1 h3{
     line-height: 30px;
 }
 .display{
-    background:cornsilk;
-    width: 50vw;
-    max-height: 100vh;
+    background:rgb(255, 255, 255);
+    width:fit-content;
 }
 canvas {
     display: fixed;
