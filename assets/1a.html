@@ -28,8 +28,11 @@
                         <label for="quantity">Unit Cell Breadth (1-5):</label>
                         <input type="integer" id="Unit-len-y" name="Unit-len-y" value="1">
                     </br>
-                        <label for="quantity">Successive Ratio:</label>
-                        <input type="integer" id="Ratio" name="Ratio" value="1.1">
+                        <label for="quantity">Successive Ratio (x):</label>
+                        <input type="integer" id="Ratio-x" name="Ratio-x" value="1.1">
+                    </br>
+                        <label for="quantity">Successive Ratio (y):</label>
+                        <input type="integer" id="Ratio-y" name="Ratio-y" value="1.1">
                     </br>
                         <label for="quantity">Scale (Change this to zoom in and out):</label>
                         <input type="number" id="Scale" name="Scale" value="50">
@@ -62,7 +65,8 @@
             var row_no= document.getElementById("Cell-y").value;
 
             //Successive Ratio
-            var ratio= document.getElementById("Ratio").value;
+            var ratio_x= document.getElementById("Ratio-x").value;
+            var ratio_y= document.getElementById("Ratio-y").value;
 
             //Common Multiplier
             var mul=document.getElementById("Scale").value;
@@ -84,10 +88,10 @@
             var len_x,len_y;
             for (var i=0;i<col_no;i++)
             {  
-                len_x=(col_len*mul)*pow(ratio,abs(val_col-i));
+                len_x=(col_len*mul)*pow(ratio_x,abs(val_col-i));
                 for (var j=0;j<row_no;j++)
                 {
-                    len_y=(row_len*mul)*pow(ratio,abs(val_row-j));
+                    len_y=(row_len*mul)*pow(ratio_y,abs(val_row-j));
                     stroke(231, 76, 60);
                     fill(66, 245, 144);
                     rect(x,y,len_x,len_y);
