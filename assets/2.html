@@ -20,9 +20,9 @@
                     Input the values below:
                 </h1>
                 <h3>Number of Cells:
-                    <input type="number" id="Cell-x" name="Cell-x" min="1" max="15" value="5">
+                    <input type="number" id="Cell-x" name="Cell-x" min="1" max="15" value="10">
                     x
-                    <input type="number" id="Cell-y" name="Cell-y" min="1" max="15" value="5">
+                    <input type="number" id="Cell-y" name="Cell-y" min="1" max="15" value="10">
                     </br>
                     <label for="quantity">Unit Cell Length (1-5):</label>
                     <input type="integer" id="Unit-len-x" name="Unit-len-x" value="1">
@@ -31,30 +31,34 @@
                     <input type="integer" id="Unit-len-y" name="Unit-len-y" value="1">
                     </br>
                     <label for="quantity">Successive Ratio (x):</label>
-                    <input type="integer" id="Ratio-x" name="Ratio-x" value="1.1">
+                    <input type="integer" id="Ratio-x" name="Ratio-x" value="1.0">
                     </br>
                     <label for="quantity">Successive Ratio (y):</label>
-                    <input type="integer" id="Ratio-y" name="Ratio-y" value="1.1">
+                    <input type="integer" id="Ratio-y" name="Ratio-y" value="1.0">
                     </br>
                     <label for="quantity">Scale (Change this to zoom in and out):</label>
-                    <input type="number" id="Scale" name="Scale" value="50">
+                    <input type="number" id="Scale" name="Scale" value="30">
                 </h3>
+                    Press submit to see the result
+                    <button class="Submit" onclick="setup()">Submit</button>
+                    </br>
+                </br></br></br></br>
                 <h2 style="line-height: 50px;">
                     For 2D-Heat Equation Plot:
                 </h2>
                 <h3>
                     <label for="quantity">Boundary Conditions:</label>
                     T<sub>e</sub>= <input type="number" id="T_e" name="T_e" min="-10" max="10" value="1">
-                    T<sub>w</sub>= <input type="number" id="T_w" name="T_w" min="-10" max="10" value="0">
+                    T<sub>w</sub>= <input type="number" id="T_w" name="T_w" min="-10" max="10" value="1">
                     T<sub>n</sub>= <input type="number" id="T_n" name="T_n" min="-10" max="10" value="0">
                     T<sub>s</sub>= <input type="number" id="T_s" name="T_s" min="-10" max="10" value="0">
                     </br>
                     <label for="quantity">Number of Iterations:</label>
                     <input type="number" id="Itt" name="Itt" value="50">
                 </h3>
-                Press submit to see the result
-                <button class="Submit" onclick="setup()">Submit</button>
-                </br>
+                    Run: 
+                    <button class="Submit-2" onclick=" getData()" onchange="readData()">Run</button>
+                    </br>
                 </br>
                 <h3 id="outt" style="color: crimson;"></h3>
             </div>
@@ -62,6 +66,27 @@
         <div class="display">
             <main></main>
             <div id="chart">
+                <script>
+                    function getData()
+                    {
+                        var Tei=document.getElementById("T_e").value;
+                        var Twi=document.getElementById("T_w").value;
+                        var Tni=document.getElementById("T_n").value;
+                        var Tsi=document.getElementById("T_s").value;
+                        var itt=document.getElementById("Itt").value;
+                        var arr = [];
+
+                        for (let i = 0; i <3; i++) 
+                        {
+
+                            arr.push(Array(4).fill().map(()=> Math.random()))
+                        }
+                        return arr;
+                    }
+                    var data = getData();
+                    console.log(data);
+                    Plotly.newPlot('chart', [{z: data, type: 'surface'}]);
+                </script>
             </div>
         </div>
     </div>
@@ -120,18 +145,7 @@
             row_tot_len = x;
             document.getElementById("outt").innerHTML = "Total Dimensions: " + ((col_tot_len - initial_x) / mul)
                 .toFixed(4) + " x " + ((row_tot_len - initial_y) / mul).toFixed(4);
-            getData();    
         }
-        
-    function getData()
-    {
-        var arr = [];
-        for (let i = 0; i < 10; i++) arr.push(Array(10).fill().map(()=> Math.random()))
-        return arr;
-    }
-    var data = getData();
-    console.log(data);
-    Plotly.newPlot('chart', [{z: data, type: 'surface'}]);
     </script>
 </body>
 
