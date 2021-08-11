@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="p5.js"></script>
     <script src="p5.sound.min.js"></script>
-    <script src="/node_modules/plotly.js-dist-min/plotly.min.js"></script>
+    <script src="plotly.min.js"></script>
     <title>Question 2</title>
     <link rel="stylesheet" href="css/que.css">
 </head>
@@ -57,7 +57,7 @@
                     <input type="number" id="Itt" name="Itt" value="50">
                 </h3>
                     Run: 
-                    <button class="Submit-2" onclick=" getData()" onchange="readData()">Run</button>
+                    <button class="Submit-2" onclick=" getData()" onchange="chart">Run</button>
                     </br>
                 </br>
                 <h3 id="outt" style="color: crimson;"></h3>
@@ -69,6 +69,23 @@
                 <script>
                     function getData()
                     {
+                        var initial_x = 10;
+                        var initial_y = 10;
+                        //Smallest length
+                        var col_len = document.getElementById("Unit-len-x").value;
+                        var row_len = document.getElementById("Unit-len-y").value;
+
+                        //Number of rows and column (size)
+                        var col_no = document.getElementById("Cell-x").value;
+                        var row_no = document.getElementById("Cell-y").value;
+
+                        //Successive Ratio
+                        var ratio_x = document.getElementById("Ratio-x").value;
+                        var ratio_y = document.getElementById("Ratio-y").value;
+
+                        //Common Multiplier
+                        var mul = document.getElementById("Scale").value;
+
                         var Tei=document.getElementById("T_e").value;
                         var Twi=document.getElementById("T_w").value;
                         var Tni=document.getElementById("T_n").value;
@@ -76,10 +93,10 @@
                         var itt=document.getElementById("Itt").value;
                         var arr = [];
 
-                        for (let i = 0; i <3; i++) 
+                        for (let i = 0; i <2; i++) 
                         {
 
-                            arr.push(Array(4).fill().map(()=> Math.random()))
+                            arr.push(Array(3).fill().map(()=> Math.random()))
                         }
                         return arr;
                     }
